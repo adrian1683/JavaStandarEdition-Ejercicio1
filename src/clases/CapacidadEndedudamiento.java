@@ -32,6 +32,6 @@ public class CapacidadEndedudamiento {
 
 
     public void getCapacidadEndeudamiento() {
-        System.out.print("Su capacidad de endeudamiento es: "+ (ingresosTotales - gastosFijos - gastoVaribales) * POR_FIJO);
+        System.out.print("Su capacidad de endeudamiento es: "+ (getIngresosTotales() - getGastosFijos() - getGastoVaribales()) * POR_FIJO);
     }
 }

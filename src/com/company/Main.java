@@ -1,35 +1,53 @@
 package com.company;
 
 import clases.CapacidadEndedudamiento;
-import javafx.scene.input.KeyCode;
 
 import java.util.Scanner;
 
 public class Main {
-    //Recuerda que aca empieza todo
+
     public static void main(String[] args) {
-        //Con este objeto de la clase Scanner puedes capturar informacion por consola cada ves que lo uses
-        // recuerda cerrar el flujo de consulta cada ves lo uses sobre para que los uses in.close()
+
+        CapacidadEndedudamiento capacidadEndedudamiento = new CapacidadEndedudamiento();
         Scanner in = new Scanner(System.in);
 
-        int ingMesuales;
-        System.out.println("Ingrese sus ingresos mensuales");
+        System.out.println("VALIDACIÓN CAPACIDAD DE ENDEUDAMIENTO");
 
-        String entrada = "SI";
-        while (entrada.equals("SI")) {
-            System.out.println("Ingrese sus gastos fijos");
-            System.out.println("Ingrese sus gastos variable");
-            //Esto te dara la primera entrada al proceso de solicitar los datos para instancir nuestro objeto
-            // CapacidadEndedudamiento()
-            //Valida las entradas de los usuarios que no vayas a convertir una "A" numero y el calculo no te funcione
-            //Utiliza el metodo is numeric para vada entrada de ser necesarios,
+        System.out.print("Ingrese el valor de sus ingresos mensuales: ");
+        int ingMesuales = in.nextInt();
+        capacidadEndedudamiento.setIngresosTotales(ingMesuales);
+
+        System.out.print("Ingrese el valor de sus gastos fijos: ");
+        int gastoFijo = in.nextInt();
+        capacidadEndedudamiento.setGastosFijos(gastoFijo);
+
+        System.out.print("Ingrese el valor de sus gastos variables: ");
+        int gastoVariable = in.nextInt();
+        capacidadEndedudamiento.setGastoVaribales(gastoVariable);
+
+        System.out.print("Desea ingresar gastos adicionales (SI/NO): ");
+        String entrada = in.next();
+
+        while (entrada.equals("SI") || entrada.equals("si")) {
+            System.out.print("Ingrese otros gastos adicionales: ");
+            int gastoAdicional = in.nextInt();
+            gastoVariable += gastoAdicional;
+            capacidadEndedudamiento.setGastoVaribales(gastoVariable);
+
+            System.out.print("Desea ingresar más gastos adicionales (SI/NO): ");
+            entrada = in.next();
         }
+        capacidadEndedudamiento.getCapacidadEndeudamiento();
     }
 
     public static boolean isNumeric(String value) {
-        // implementa un bloque try catch aca
-        Double.parseDouble(value);
-        return false;
+        try {
+            Integer.parseInt(value);
+            return true;
+        }
+        catch (NumberFormatException nfe){
+            return false;
+        }
 
     }
 }

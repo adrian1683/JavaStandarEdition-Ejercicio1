@@ -30,14 +30,8 @@ public class CapacidadEndedudamiento {
         this.gastoVaribales = gastoVaribales;
     }
 
-    //Construye un metodo que retorne una cadena con las propiedades de la clase
-    public String mensaje(String informacion){
 
-        return "";
-    }
-
-    public String getCapacidadEndeudamiento() {
-        // retornar la capacidad de endeudamiento puede ser una cadena con el valor de la deuda
-        return "";
+    public void getCapacidadEndeudamiento() {
+        System.out.print("Su capacidad de endeudamiento es: "+ (ingresosTotales - gastosFijos - gastoVaribales) * POR_FIJO);
     }
 }

@@ -1,83 +1,73 @@
 package com.company;
 
 import clases.CapacidadEndedudamiento;
+import clases.Mensajes;
 
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        int valorNumerico;
-        CapacidadEndedudamiento capacidadEndedudamiento = new CapacidadEndedudamiento();
+
         Scanner in = new Scanner(System.in);
 
-        System.out.println("VALIDACIÓN CAPACIDAD DE ENDEUDAMIENTO");
+        Mensajes mensaje = new Mensajes();
+        CapacidadEndedudamiento capacidadEndedudamiento = new CapacidadEndedudamiento();
+        String valorIngreso;
+        String valorFijo;
+        String valorVariable;
+        String entrada = "SI";
 
-        System.out.print("Ingrese el valor de sus ingresos mensuales: ");
-        String ingMesuales = in.next();
+        mensaje.ingreso();
+        valorIngreso = in.nextLine();
 
-        if (isNumeric(ingMesuales)) {
-            valorNumerico = Integer.parseInt(ingMesuales);
-            capacidadEndedudamiento.setIngresosTotales(valorNumerico);
+        if(isNumeric(valorIngreso)){
+            capacidadEndedudamiento.setIngresosTotales(Integer.parseInt(valorIngreso));
+
+            while (entrada.equals("SI")){
+                mensaje.gastoFijo();
+                valorFijo = in.nextLine();
+
+                mensaje.gastoVariable();
+                valorVariable = in.nextLine();
+
+                if(isNumeric(valorFijo) && isNumeric(valorVariable)){
+                    capacidadEndedudamiento.setGastosFijos(Integer.parseInt(valorFijo));
+                    capacidadEndedudamiento.setGastoVariables(Integer.parseInt(valorVariable));
+                }
+                else if(isNumeric(valorFijo) && !isNumeric(valorVariable)){
+                        capacidadEndedudamiento.setGastosFijos(Integer.parseInt(valorFijo));
+                        mensaje.valorIncorrectoVariable();
+                        mensaje.ingresoGastos();
+                }
+                    else if(!isNumeric(valorFijo) && isNumeric(valorVariable)){
+                        capacidadEndedudamiento.setGastoVariables(Integer.parseInt(valorVariable));
+                        mensaje.valorIncorrectoFijo();
+                        mensaje.ingresoGastos();
+                    }
+                    else{
+                        mensaje.valorIncorrectoFijo();
+                        mensaje.valorIncorrectoVariable();
+                        mensaje.ingresoGastos();
+                    }
+                mensaje.ingresarDatos();
+                entrada = in.nextLine().toUpperCase();
+            }
+            System.out.println(capacidadEndedudamiento);
+            System.out.println(capacidadEndedudamiento.capacidadEndeudamiento());
         }
         else{
-            System.out.print("Valor ingresado incorrecto, favor ingrese un valor numerico: ");
-            ingMesuales = in.next();
-            valorNumerico = Integer.parseInt(ingMesuales);
-            capacidadEndedudamiento.setIngresosTotales(valorNumerico);
+            mensaje.valorIncorrectoIngreso();
+            main(args);
         }
-
-        System.out.print("Ingrese el valor de sus gastos fijos: ");
-        String gastoFijo = in.next();
-        if (isNumeric(gastoFijo)) {
-            valorNumerico = Integer.parseInt(gastoFijo);
-            capacidadEndedudamiento.setGastosFijos(valorNumerico);
-        }
-        else{
-            System.out.print("Valor ingresado incorrecto, favor ingrese un valor numerico: ");
-            gastoFijo = in.next();
-            valorNumerico = Integer.parseInt(gastoFijo);
-            capacidadEndedudamiento.setGastosFijos(valorNumerico);
-        }
-
-
-        System.out.print("Ingrese el valor de sus gastos variables: ");
-        String gastoVariable = in.next();
-        if (isNumeric(gastoVariable)){
-            valorNumerico = Integer.parseInt(gastoVariable);
-            capacidadEndedudamiento.setGastoVaribales(valorNumerico);
-        }
-        else{
-            System.out.print("Valor ingresado incorrecto, favor ingrese un valor numerico: ");
-            gastoVariable = in.next();
-            valorNumerico = Integer.parseInt(gastoVariable);
-            capacidadEndedudamiento.setGastoVaribales(valorNumerico);
-        }
-
-        System.out.print("Desea ingresar gastos adicionales (SI/NO): ");
-        String entrada = in.next();
-
-        while (entrada.equals("SI") || entrada.equals("si")) {
-            System.out.print("Ingrese otros gastos adicionales: ");
-            int gastoAdicional = in.nextInt();
-            valorNumerico = Integer.parseInt(gastoVariable);
-            valorNumerico += gastoAdicional;
-            capacidadEndedudamiento.setGastoVaribales(valorNumerico);
-
-            System.out.print("Desea ingresar más gastos adicionales (SI/NO): ");
-            entrada = in.next();
-        }
-        capacidadEndedudamiento.getCapacidadEndeudamiento();
     }
 
     public static boolean isNumeric(String value) {
         try {
-            Integer.parseInt(value);
+            Double.parseDouble(value);
             return true;
-        }
-        catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             return false;
         }
-
     }
 }
